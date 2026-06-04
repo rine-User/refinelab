@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RefineLab | 無駄を削り、本質だけを残す。</title>
+  <meta name="description" content="RefineLabは、業務の改善と効率化を通じて「頑張らなくても成果が出る仕組み」を提供します。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #050505; color: #fff; font-family: 'Inter', 'Noto Sans JP', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    .text-gradient-cyan {
+      background: linear-gradient(90deg, #00E5FF, #00BFFF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .text-shimmer {
+      background: linear-gradient(90deg, #fff 0%, #00E5FF 30%, #fff 60%, #00E5FF 90%, #fff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+    .glow-cyan { box-shadow: 0 0 20px rgba(0,229,255,0.4), 0 0 60px rgba(0,229,255,0.1); }
+    .glow-cyan:hover { box-shadow: 0 0 30px rgba(0,229,255,0.6), 0 0 80px rgba(0,229,255,0.2); }
+    .grid-bg {
+      background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes pulse-glow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease forwards; }
+    .animate-fade-in { animation: fadeIn 1s ease forwards; }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.35s; }
+    .delay-3 { animation-delay: 0.5s; }
+    .delay-4 { animation-delay: 0.65s; }
+
+    .nav-scrolled { background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-answer.open { max-height: 200px; }
+    .faq-icon { transition: transform 0.3s ease; display: inline-block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .btn-shine { position: relative; overflow: hidden; }
+    .btn-shine::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,255,255,0.2);
+      transform: translateX(-100%) skewX(12deg);
+      transition: transform 0.5s ease;
+    }
+    .btn-shine:hover::after { transform: translateX(100%) skewX(12deg); }
+
+    .card-hover { transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.08); }
+    .card-hover:hover { border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.03); }
+
+    .in-view { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .in-view.visible { opacity: 1; transform: translateY(0); }
+
+    .sent-msg { display: none; }
+    .sent-msg.show { display: block; }
+    .contact-form.hide { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="text-xl font-black tracking-wider">
+      <span class="text-gradient-cyan">Refine</span><span class="text-white">Lab</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm" style="color:rgba(255,255,255,0.6)">
+      <a href="#features" class="hover:text-white transition-colors">サービス</a>
+      <a href="#flow" class="hover:text-white transition-colors">流れ</a>
+      <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      <a href="#contact" class="px-4 py-2 rounded-full text-[#00E5FF] hover:bg-[#00E5FF]/10 transition-all" style="border:1px solid rgba(0,229,255,0.4)">お問い合わせ</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
+  <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none" style="background:rgba(0,229,255,0.05);filter:blur(120px)"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none" style="background:rgba(107,70,193,0.05);filter:blur(100px)"></div>
+  <div class="absolute top-20 right-20 w-2 h-2 rounded-full bg-[#00E5FF] animate-pulse-glow" style="opacity:0.6"></div>
+  <div class="absolute top-40 left-16 w-1 h-1 rounded-full animate-pulse-glow delay-1" style="background:#FFD700;opacity:0.6"></div>
+
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[#00E5FF] text-xs tracking-widest uppercase mb-10 animate-fade-in" style="border:1px solid rgba(0,229,255,0.2);background:rgba(0,229,255,0.05)">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse inline-block"></span>
+      AI × 業務改善コンサルティング
+    </div>
+
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none mb-6 animate-fade-in-up">
+      <span class="text-white">無駄を削り、</span><br />
+      <span class="text-shimmer">本質だけを残す。</span>
+    </h1>
+
+    <p class="text-base md:text-lg tracking-widest mb-4 animate-fade-in-up delay-1" style="color:rgba(255,255,255,0.5)">～ Make it Effi ～</p>
+    <p class="text-lg md:text-xl font-light mb-8 animate-fade-in-up delay-2" style="color:rgba(255,255,255,0.7)">効率で、仕事はもっと自由になる。</p>
+
+    <p class="text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-12 animate-fade-in-up delay-3" style="color:rgba(255,255,255,0.4)">
+      RefineLabは、業務の改善と効率化を通じて<br class="hidden md:block" />
+      「頑張らなくても成果が出る仕組み」を提供します。
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-4">
+      <a href="#course" class="btn-shine inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#00E5FF] text-black font-bold text-sm tracking-wide glow-cyan transition-all duration-300 hover:scale-105">
+        <span>▶</span><span>無料講座を見る</span>
+      </a>
+      <a href="#contact" class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-medium text-sm tracking-wide transition-all duration-300 hover:scale-105" style="border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8)" onmouseover="this.style.borderColor='rgba(255,255,255,0.5)';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.8)'">
+        <span>お問い合わせ</span><span class="text-xs">→</span>
+      </a>
+    </div>
+
+    <div class="mt-20 flex flex-col items-center gap-2 animate-fade-in" style="animation-delay:1s">
+      <span class="text-xs tracking-widest" style="color:rgba(255,255,255,0.2)">SCROLL</span>
+      <div class="w-px h-12" style="background:linear-gradient(to bottom, rgba(255,255,255,0.2), transparent)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="py-20 px-6" style="border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05)">
+  <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="text-center in-view">
+      <div class="text-sm font-bold tracking-widest mb-1 border rounded-full px-3 py-1 inline-block" style="color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1)">準備中</div>
+      <div class="text-xs mt-1" style="color:rgba(255,255,255,0.4)">クライアント満足度</div>
+    </div>
+    <div class="text-center in-view" style="transition-delay:0.1s">
+      <div class="text-sm font-bold tracking-widest mb-1 border rounded-full px-3 py-1 inline-block" style="color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1)">準備中</div>
+      <div class="text-xs mt-1" style="color:rgba(255,255,255,0.4)">平均作業時間の削減</div>
+    </div>
+    <div class="text-center in-view" style="transition-delay:0.2s">
+      <div class="text-sm font-bold tracking-widest mb-1 border rounded-full px-3 py-1 inline-block" style="color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1)">準備中</div>
+      <div class="text-xs mt-1" style="color:rgba(255,255,255,0.4)">支援実績</div>
+    </div>
+    <div class="text-center in-view" style="transition-delay:0.3s">
+      <div class="text-sm font-bold tracking-widest mb-1 border rounded-full px-3 py-1 inline-block" style="color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1)">準備中</div>
+      <div class="text-xs mt-1" style="color:rgba(255,255,255,0.4)">初回相談料</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="py-32 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-20 in-view">
+      <span class="text-[#00E5FF] text-xs tracking-[0.3em] uppercase">Services</span>
+      <h2 class="text-3xl md:text-5xl font-black mt-3 text-white">私たちが提供する<span class="text-gradient-cyan">3つの価値</span></h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card-hover p-8 rounded-2xl bg-white/[0.02] in-view" style="transition-delay:0s">
+        <div class="text-4xl mb-6 animate-float">⚡</div>
+        <h3 class="text-lg font-bold text-white mb-3">業務の自動化</h3>
+        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.5)">繰り返し作業をAIと仕組みで自動化。時間を本質的な仕事に集中させます。</p>
+      </div>
+      <div class="card-hover p-8 rounded-2xl bg-white/[0.02] in-view" style="transition-delay:0.12s">
+        <div class="text-4xl mb-6 animate-float" style="animation-delay:0.5s">🎯</div>
+        <h3 class="text-lg font-bold text-white mb-3">本質思考の設計</h3>
+        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.5)">「なぜやるか」から問い直し、不要な工程を削ぎ落とした業務フローを設計します。</p>
+      </div>
+      <div class="card-hover p-8 rounded-2xl bg-white/[0.02] in-view" style="transition-delay:0.24s">
+        <div class="text-4xl mb-6 animate-float" style="animation-delay:1s">📈</div>
+        <h3 class="text-lg font-bold text-white mb-3">成果を出す仕組み化</h3>
+        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.5)">頑張りに頼らず、誰でも再現できる成果の出る仕組みを構築します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section id="flow" class="py-32 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-20 in-view">
+      <span class="text-[#00E5FF] text-xs tracking-[0.3em] uppercase">How it works</span>
+      <h2 class="text-3xl md:text-5xl font-black mt-3 text-white">導入の<span class="text-gradient-cyan">4ステップ</span></h2>
+    </div>
+    <div class="space-y-8">
+      <div class="flex gap-6 items-start in-view">
+        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style="border:2px solid rgba(0,229,255,0.4)">
+          <span class="text-[#00E5FF] text-xs font-bold">01</span>
+        </div>
+        <div class="pt-2">
+          <h3 class="text-lg font-bold text-white mb-1">現状ヒアリング</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.5)">業務フロー・課題・目標を丁寧にお伺いします。</p>
+        </div>
+      </div>
+      <div class="flex gap-6 items-start in-view" style="transition-delay:0.15s">
+        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style="border:2px solid rgba(0,229,255,0.4)">
+          <span class="text-[#00E5FF] text-xs font-bold">02</span>
+        </div>
+        <div class="pt-2">
+          <h3 class="text-lg font-bold text-white mb-1">改善設計</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.5)">削るべき無駄と残すべき本質を整理し、最適解を設計します。</p>
+        </div>
+      </div>
+      <div class="flex gap-6 items-start in-view" style="transition-delay:0.3s">
+        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style="border:2px solid rgba(0,229,255,0.4)">
+          <span class="text-[#00E5FF] text-xs font-bold">03</span>
+        </div>
+        <div class="pt-2">
+          <h3 class="text-lg font-bold text-white mb-1">実装・導入</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.5)">ツール・AIを活用して仕組みを構築・実装します。</p>
+        </div>
+      </div>
+      <div class="flex gap-6 items-start in-view" style="transition-delay:0.45s">
+        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style="border:2px solid rgba(0,229,255,0.4)">
+          <span class="text-[#00E5FF] text-xs font-bold">04</span>
+        </div>
+        <div class="pt-2">
+          <h3 class="text-lg font-bold text-white mb-1">定着・伴走</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.5)">定着まで継続サポート。成果が出るまで一緒に走ります。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE -->
+<section id="course" class="py-32 px-6 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to bottom, transparent, rgba(0,229,255,0.03), transparent)"></div>
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="in-view">
+      <span class="text-[#00E5FF] text-xs tracking-[0.3em] uppercase">Free Course</span>
+      <h2 class="text-3xl md:text-5xl font-black mt-3 mb-6 text-white">まずは<span class="text-gradient-cyan">無料講座</span>から</h2>
+      <p class="text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-10" style="color:rgba(255,255,255,0.5)">
+        業務効率化の基礎から実践まで、動画でわかりやすく解説。<br />登録不要・完全無料でご視聴いただけます。
+      </p>
+      <div class="grid sm:grid-cols-3 gap-4 mb-12 text-left">
+        <div class="p-5 rounded-xl" style="border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02)">
+          <div class="text-[#00E5FF] text-xs mb-2">Lesson 1</div>
+          <div class="text-white text-sm font-medium">AIツール活用入門</div>
+        </div>
+        <div class="p-5 rounded-xl" style="border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02)">
+          <div class="text-[#00E5FF] text-xs mb-2">Lesson 2</div>
+          <div class="text-white text-sm font-medium">業務フロー改善の思考法</div>
+        </div>
+        <div class="p-5 rounded-xl" style="border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02)">
+          <div class="text-[#00E5FF] text-xs mb-2">Lesson 3</div>
+          <div class="text-white text-sm font-medium">自動化ツール実践</div>
+        </div>
+      </div>
+      <div class="flex flex-col items-center gap-2">
+        <div class="inline-flex items-center gap-3 px-10 py-4 rounded-full font-bold text-sm tracking-wide cursor-not-allowed" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.1)">
+          <span>▶</span><span>無料講座を見る</span>
+        </div>
+        <span class="text-xs tracking-widest" style="color:rgba(255,255,255,0.25)">— 近日公開予定 —</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-32 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-16 in-view">
+      <span class="text-[#00E5FF] text-xs tracking-[0.3em] uppercase">FAQ</span>
+      <h2 class="text-3xl md:text-4xl font-black mt-3 text-white">よくある質問</h2>
+    </div>
+    <div class="space-y-3">
+      <div class="faq-item rounded-xl overflow-hidden in-view" style="border:1px solid rgba(255,255,255,0.08);transition-delay:0s">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left">
+          <span class="text-white font-medium text-sm pr-4">どんな業種・規模に対応していますか？</span>
+          <span class="text-[#00E5FF] text-xl faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p class="px-6 pb-6 text-sm leading-relaxed" style="color:rgba(255,255,255,0.5)">中小企業・個人事業主・フリーランスの方まで幅広くご支援しています。業種は問いません。</p>
+        </div>
+      </div>
+      <div class="faq-item rounded-xl overflow-hidden in-view" style="border:1px solid rgba(255,255,255,0.08);transition-delay:0.1s">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left">
+          <span class="text-white font-medium text-sm pr-4">ITに詳しくなくても大丈夫ですか？</span>
+          <span class="text-[#00E5FF] text-xl faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p class="px-6 pb-6 text-sm leading-relaxed" style="color:rgba(255,255,255,0.5)">はい。ツールの操作から丁寧にサポートします。技術的な知識は不要です。</p>
+        </div>
+      </div>
+      <div class="faq-item rounded-xl overflow-hidden in-view" style="border:1px solid rgba(255,255,255,0.08);transition-delay:0.2s">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left">
+          <span class="text-white font-medium text-sm pr-4">まずどこから相談すれば良いですか？</span>
+          <span class="text-[#00E5FF] text-xl faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p class="px-6 pb-6 text-sm leading-relaxed" style="color:rgba(255,255,255,0.5)">まずは無料講座または無料相談からどうぞ。現状をお聞きした上でご提案します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="py-32 px-6 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to right, rgba(0,229,255,0.08), rgba(107,70,193,0.08), rgba(255,215,0,0.08))"></div>
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(to right, transparent, rgba(0,229,255,0.3), transparent)"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-px" style="background:linear-gradient(to right, transparent, rgba(0,229,255,0.3), transparent)"></div>
+  <div class="max-w-3xl mx-auto text-center in-view">
+    <h2 class="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">今すぐ、<span class="text-shimmer">効率化</span>を始めよう。</h2>
+    <p class="text-sm mb-10" style="color:rgba(255,255,255,0.4)">無料講座・無料相談から始められます。一歩踏み出すだけで、仕事は変わります。</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <span class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-sm tracking-wide cursor-not-allowed" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.1)">
+        <span>▶</span><span>無料講座（近日公開）</span>
+      </span>
+      <a href="#contact" class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-medium text-sm tracking-wide transition-all duration-300 hover:scale-105" style="border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8)">
+        <span>お問い合わせ</span><span class="text-xs">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-32 px-6">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-14 in-view">
+      <span class="text-[#00E5FF] text-xs tracking-[0.3em] uppercase">Contact</span>
+      <h2 class="text-3xl md:text-4xl font-black mt-3 text-white">お問い合わせ</h2>
+      <p class="text-sm mt-4" style="color:rgba(255,255,255,0.4)">まずは気軽にご連絡ください。初回相談は無料です。</p>
+    </div>
+    <div class="p-8 md:p-10 rounded-2xl in-view" style="border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);transition-delay:0.2s">
+      <div id="sent-msg" class="sent-msg text-center py-10">
+        <div class="text-4xl mb-4">✅</div>
+        <p class="text-white font-bold text-lg mb-2">ありがとうございます！</p>
+        <p class="text-sm" style="color:rgba(255,255,255,0.4)">現在フォームを準備中です。<br />お問い合わせはSNSまたはメールにてご連絡ください。</p>
+        <button onclick="resetForm()" class="mt-6 text-xs underline" style="color:rgba(255,255,255,0.3)">戻る</button>
+      </div>
+      <div id="contact-form">
+        <div class="text-xs rounded-xl px-4 py-3 mb-5" style="color:rgba(0,229,255,0.6);background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.15)">
+          ⚠️ 現在フォーム機能は準備中です。送信テストはできますが、実際には届きません。
+        </div>
+        <div class="space-y-5">
+          <div>
+            <label class="block text-xs mb-2 tracking-wide" style="color:rgba(255,255,255,0.4)">お名前</label>
+            <input type="text" placeholder="山田 太郎" class="w-full rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)" onfocus="this.style.borderColor='rgba(0,229,255,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
+          </div>
+          <div>
+            <label class="block text-xs mb-2 tracking-wide" style="color:rgba(255,255,255,0.4)">メールアドレス</label>
+            <input type="email" placeholder="your@email.com" class="w-full rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)" onfocus="this.style.borderColor='rgba(0,229,255,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
+          </div>
+          <div>
+            <label class="block text-xs mb-2 tracking-wide" style="color:rgba(255,255,255,0.4)">お問い合わせ内容</label>
+            <textarea rows="4" placeholder="業務効率化についてご相談したいです..." class="w-full rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)" onfocus="this.style.borderColor='rgba(0,229,255,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"></textarea>
+          </div>
+          <button onclick="submitForm()" class="btn-shine w-full py-4 rounded-xl bg-[#00E5FF] text-black font-bold text-sm tracking-wide glow-cyan transition-all duration-300 hover:scale-[1.02]">
+            送信する
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-12 px-6" style="border-top:1px solid rgba(255,255,255,0.05)">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <div>
+      <div class="text-xl font-black tracking-wider mb-1">
+        <span class="text-gradient-cyan">Refine</span><span class="text-white">Lab</span>
+      </div>
+      <p class="text-xs" style="color:rgba(255,255,255,0.25)">無駄を削り、本質だけを残す。</p>
+    </div>
+    <div class="flex gap-6 text-xs" style="color:rgba(255,255,255,0.2)">
+      <span>プライバシーポリシー（準備中）</span>
+      <span>特定商取引法（準備中）</span>
+      <a href="#contact" class="transition-colors hover:text-white/60" style="color:rgba(255,255,255,0.3)">お問い合わせ</a>
+    </div>
+    <p class="text-xs" style="color:rgba(255,255,255,0.2)">© 2026 RefineLab. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 40) nav.classList.add('nav-scrolled');
+    else nav.classList.remove('nav-scrolled');
+  });
+
+  // IntersectionObserver for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.in-view').forEach(el => observer.observe(el));
+
+  // FAQ toggle
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-answer');
+    item.classList.toggle('open');
+    answer.classList.toggle('open');
+  }
+
+  // Contact form
+  function submitForm() {
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('sent-msg').style.display = 'block';
+  }
+  function resetForm() {
+    document.getElementById('contact-form').style.display = 'block';
+    document.getElementById('sent-msg').style.display = 'none';
+  }
+</script>
+</body>
+</html>
