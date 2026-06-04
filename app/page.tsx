@@ -151,7 +151,7 @@ function HeroSection() {
         >
           RefineLabは、業務の改善と効率化を通じて
           <br className="hidden md:block" />
-          "頑張らなくても成果が出る仕組み"を提供します。
+          &ldquo;頑張らなくても成果が出る仕組み&rdquo;を提供します。
         </p>
 
         {/* CTA Buttons */}
